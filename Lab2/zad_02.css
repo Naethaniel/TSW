@@ -1,0 +1,34 @@
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+body {
+  margin-top: 3em;
+}
+body div#menu {
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  top: 0;
+  background: lightgray;
+  border: darkgray 5px solid;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}
+body div#menu span.el_menu {
+  padding: 1px;
+  margin: 1px;
+  border: 1px solid;
+  background: lightgray;
+}
+body div#menu span.el_menu:hover {
+  background: rgba(77, 73, 76, 0.37);
+}
+body div#menu span a {
+  color: darkred;
+}
+body div#tresc {
+  overflow-y: scroll;
+  height: 400px;
+}

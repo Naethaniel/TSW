@@ -1,0 +1,30 @@
+.box {
+  padding: 20px;
+  border: 1px solid black;
+  width: auto;
+  color: white;
+}
+body #outer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+}
+body #outer .box {
+  padding: 20px;
+  border: 1px solid black;
+  width: auto;
+  color: white;
+}
+body #outer .box:nth-child(1) {
+  background: gray;
+  align-self: flex-start;
+}
+body #outer .box:nth-child(2) {
+  background: darkgray;
+}
+body #outer .box:nth-child(3) {
+  background: lightgray;
+  align-self: flex-end;
+}

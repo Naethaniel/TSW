@@ -1,0 +1,26 @@
+body{
+  background-color: lightgrey;
+}
+.C {
+    position: relative;
+    background-color: orange;
+    padding: 10px;
+    width: 13em;
+    height: 2em;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.C .A .A{
+  position: relative;
+  bottom: 10px;
+  left: 20px;
+}
+.C .B{
+  position: relative;
+  left: 20px;
+  bottom: 26px;
+}

@@ -1,0 +1,12 @@
+.border {
+  border: 1px solid black;
+}
+body {
+  padding: 10px;
+  display: flex;
+  border: 1px solid black;
+}
+body div#naglowek {
+  text-align: center;
+  border: left right bottom 1px black;
+}
