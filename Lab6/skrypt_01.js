@@ -1,33 +1,42 @@
 $(() => {
     let previous;
+    let flag = false;
     //pojedyncze klikniecie na komorke podswiela na zolto
-    $('tr').on("click", function () {
+    $('tbody tr').on("click", function () {
         if (previous) {
             $(previous).removeClass("yellow");
             $(this).addClass("yellow");
             previous = $(this);
+            flag = true;
         }
         else {
             $(this).addClass("yellow");
             previous = $(this);
+            flag = true;
         }
     });
+//zaznaczajac potem uzywajac strzalek mozna zmieniac pozycje wiersza
+    $('body').keydown(function (e) {
+        if (e.which === 38 && flag) {
+            $(previous).after($(previous).prev());
+        }
+        else if (e.which === 40 && previous) {
+            $(previous).before($(previous).next());
+        }
+    });
+
     //podwojne klikniecie na komorke daje pole textowe do zmiany
-    $("td").dblclick(function () {
-        $(this).replaceWith(`<input type ="text" value="${$(this).text()}">`)
-    });
-    $("input").keypress(function (e) {
-        console.log(e);
+    //po enterze zapisuje zmiane w tabeli
+    $("tr td").keypress(function (e) {
         if (e.key === "Enter") {
-            console.log("enter");
+            let text = this.childNodes[0].value;
+            $(this).text("");
+            $(this).append(`${text}`);
         }
-        else {
-            console.log("heh");
-        }
+    }).on("dblclick", function () {
+        let temp = $(this).text();
+        $(this).text("");
+        $(this).append(`<input type ="text" value="${temp}">`);
     });
 });
 
-
-
-
-//zaznaczajac potem uzywajac strzalek mozna zmieniac pozycje wiersza
