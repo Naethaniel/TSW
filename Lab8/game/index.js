@@ -1,10 +1,9 @@
-//jshint node: true, esversion: 6
 const newGame = (req, res) => {
     let size = req.body.size;
     let dim = req.body.dim;
     let max = req.body.max;
 
-    if (dim === undefined) dim = 9;
+  if (dim === undefined) dim = 9;
     if (size === undefined) size = 5;
     if (max === undefined) max = 0;
 
@@ -14,69 +13,71 @@ const newGame = (req, res) => {
         max,
         answer: []
     };
-
     for (let i = 0; i < size; i++) {
         game.answer[i] = Math.floor(Math.random() * (dim - 1) + 1);
     }
-
-    req.session = game;
-    res.send(`Sucessfully created new game with parameters: size: ${size} dim: ${dim} max: ${max} answer: ${game.answer}`);
+    req.session.game = game;
+    res.send(game);
 };
 
 const markAnswer = (req, res) => {
-    if (req.session.game.answer.length !== req.body.move.length) {
-        res.send("Move must have the same length");
-    }
-    let move = req.body.move;
-    let code = req.session.game.answer;
-    let response = {
+  let game = req.session.game;
+  let move = req.body.move;
+  if (game !== undefined || move !== undefined) {
+    if (game.answer.length !== move.length) {
+      res.send("Move must have the same length");
+    } else {
+      let code = game.answer;
+      let mark = {
         black: 0,
         white: 0
-    };
-    //czarne
-    let kodCopy = [...code];
-    kodCopy.forEach((item, index) => {
+      };
+      //black
+      let kodCopy = [...code];
+      kodCopy.forEach((item, index) => {
         if (req.body.move[index] === item) {
-            response.black++;
-            delete kodCopy[index];
-            delete move[index];
+          mark.black++;
+          delete kodCopy[index];
+          delete move[index];
         }
-    });
+      });
 
-    //biale
-    let kruch = {};
-    let kkod = {};
+      //white
+      let moveCode = {};
+      let codeCode = {};
 
-    kodCopy.forEach((item) => {
-        if (kkod[item]) {
-            kkod[item]++;
+      kodCopy.forEach((item) => {
+        if (codeCode[item]) {
+          codeCode[item]++;
         }
         else {
-            kkod[item] = 1;
+          codeCode[item] = 1;
         }
-    });
+      });
 
-    move.forEach((item) => {
-        if (kruch[item]) {
-            kruch[item]++;
+      move.forEach((item) => {
+        if (moveCode[item]) {
+          moveCode[item]++;
         }
         else {
-            kruch[item] = 1;
+          moveCode[item] = 1;
         }
-    });
+      });
 
-    Object.keys(kkod).forEach((element) => {
-        if (kruch[element]) {
-            if (kruch[element] >= element) {
-                response.white += kkod[element];
-            }
-            else {
-                response.white += kruch[element];
-            }
+      Object.keys(codeCode).forEach((element) => {
+        if (moveCode[element]) {
+          if (moveCode[element] >= element) {
+            mark.white += codeCode[element];
+          }
+          else {
+            mark.white += moveCode[element];
+          }
         }
-    });
-
-    res.send(response.biale);
+      });
+      console.log(mark);
+      res.send(mark);
+    }
+  }
 };
 
 module.exports = {
