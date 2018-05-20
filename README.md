@@ -1,1 +1,1 @@
-#My repo for course "Web Technologies"
+My repo for course "Web Technologies"
