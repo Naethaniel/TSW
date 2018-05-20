@@ -1,1 +1,1 @@
-alert("");
+import '../css/sass/app.scss';
