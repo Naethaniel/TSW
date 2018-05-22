@@ -12,6 +12,7 @@ document.onreadystatechange = () => {
         let send = document.getElementById('send');
         let text = document.getElementById('text');
         let message = document.getElementById('message');
+        let userUL = document.getElementById('users');
         let socket;
         let username;
 
@@ -29,35 +30,53 @@ document.onreadystatechange = () => {
                 username = prompt("Please enter your username");
                 if(username){
                     socket.emit('user', username);
+                    setInterval(() => {
+                      socket.emit('heartbeat', username);
+                    });
                     close.disabled = false;
                     send.disabled = false;
                     status.src = 'img/bullet_green.png';
                     console.log('Nawiązano połączenie przez Socket.io');
                 }
             });
+
+            socket.on('loadHistory', (messages) =>{
+              messages.forEach((element) => {
+                let li = document.createElement('li');
+                li.innerHTML = `<li>${element.user} napisał: ${element.text}</li></br>`;
+                message.appendChild(li);
+              });
+            });
+
+            socket.on('loadUsers', (users) => {
+              while(userUL.firstChild){
+                userUL.removeChild(userUL.firstChild);
+              }
+              users.forEach((element) => {
+                let li = document.createElement('li');
+                li.innerHTML = `${element}`;
+                userUL.appendChild(li);
+              });
+            });
+
             socket.on('disconnect', () => {
+              socket.emit('disconnect', username);
                 open.disabled = false;
                 status.src = 'img/bullet_red.png';
                 console.log('Połączenie przez Socket.io zostało zakończone');
             });
+
             socket.on('error', (err) => {
                 message.textContent = `Błąd połączenia z serwerem: "${JSON.stringify(err)}"`;
             });
-            socket.on('echo', (data) => {
-                //dostaje cala tablice, iteruje po niej dopisujac wiadomosci
 
-                //"czyszcze" okienko z wiadomosciami
-                while(message.firstChild){
-                    message.removeChild(message.firstChild);
-                }
-                //"tworze" nowe okienko z wiadomosciami
-
-                data.forEach((element) => {
-
-                    let li = document.createElement('li');
-                    li.innerHTML = `<li>${element.user} napisał: ${element.text}</li></br>`;
-                    message.appendChild(li);
-                });
+            socket.on('echo', (msg) => {
+              if(msg){
+                console.log(msg);
+                let li = document.createElement('li');
+                li.innerHTML = `<li>${msg.user} napisał: ${msg.text}</li></br>`;
+                message.appendChild(li);
+              }
             });
         });
 
