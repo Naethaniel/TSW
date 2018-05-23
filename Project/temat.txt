@@ -1,0 +1,11 @@
+Temat: mikro Ebay. Serwis aukcyjny
+
+- Użytkownicy: MongoDB, Mongoose, Passport.js ! uzyć go do weryfikacji uprawneń,
+- Licytacja: Socket.io/ WebSocket
+- Oferty skladane są przez użytkownikow tylko, każdy użytkownik może sobie edytować jeżeli nie jest już licytowana. Kup teraz i licytacja. Licytować nie można swoich aukcji. Płatności nie są wyamagane. Składanie, przygotowywanie, rodzaj aukcji: czasowa lub kup teraz. Użytkownik nie może go licytować tylko inni zarejestrowani użytkownicy.
+- Komunikacja pomiedzy użytkownikami - Socket.io/ WS + "backup" -> zalogowany użytkownik dostaje od razu popup z wiadomościa, niezalogowany użytkownik dostaje informacje o wiadomości po zalogowaniu. Wysyłamy wiadomości poprzez aukcje do użytkowników.
+- Interfejs użytkownika: responsywny + prosty + ładny + LESS
+
+
+Express.js
+EJS lub HBR(handlebars) lub JADE
