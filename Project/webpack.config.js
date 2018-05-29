@@ -13,8 +13,10 @@ module.exports = {
     },
   plugins: [
       new webpack.ProvidePlugin({
-          $: "jquery",
-          jQuery: "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        Tether: 'tether'
       })
   ],
     output: {

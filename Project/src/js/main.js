@@ -5,7 +5,7 @@ import 'bootstrap';
 
 //jquery here
 $(() => {
-  $('body').append("im working");
+
 });
 
 
