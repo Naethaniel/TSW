@@ -1,5 +1,7 @@
 require('../css/style.less');
-import '../css/style.scss';
+require('../css/style.scss');
+require('../hbs/layouts/layout.hbs');
+import 'bootstrap';
 
 //jquery here
 $(() => {
