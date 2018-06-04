@@ -4,6 +4,15 @@ body {
   font-size: 16px;
   background-color: azure;
 }
-a {
+body a {
   color: #00B7FF;
+}
+body div#inputs {
+  display: flex;
+}
+body div#inputs input {
+  width: 2em;
+}
+body div#moveHistory p {
+  display: none;
 }

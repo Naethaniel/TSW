@@ -28,11 +28,6 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/uBuy');
 const db = mongoose.connection;
 
-//Routes
-const routes = require('');
-const users = require('');
-
-
 //Conf passport.js
 passport.serializeUser( (user, done) => {
   done(null, user);

@@ -1,4 +1,3 @@
-//jshint node: true, esversion: 6
 // ładujemy wykorzystywane moduły:
 
 // express – jako „podstawa aplikacji”
