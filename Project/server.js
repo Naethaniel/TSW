@@ -1,23 +1,39 @@
 //Express
 const express = require('express');
 const app = express();
+
 //Webpack
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const compiler = webpack(webpackConfig);
+
 //Handlebars
 const hbs = require('express-handlebars');
+
 //Path
 const path = require('path');
-// Passport.js
+
+//Passport.js
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// Socket.io
+
+//Socket.io
 const socketIo = require('socket.io');
 const passportSocketIo = require('passport.socketio');
 
-// Konfiguracja passport.js
+//MongoDb
+const mongo = require('mongodb');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/uBuy');
+const db = mongoose.connection;
+
+//Routes
+const routes = require('');
+const users = require('');
+
+
+//Conf passport.js
 passport.serializeUser( (user, done) => {
   done(null, user);
 });
@@ -40,50 +56,41 @@ passport.use(new LocalStrategy(
   }
 ));
 
-// Cookie and body parser
+//Routing
+const index = require('./routes/index');
+const login = require('./routes/login');
+const register = require('./routes/register');
+app.use('/', index);
+app.use('/login', login);
+app.use('/register', register);
+
+//Cookie and body parser
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Session
+//Session
 const sessionSecret = 'iLoveSecrets#222';
 const sessionKey = 'express.sid';
 const session = require('express-session');
 app.use(session({
   key: sessionKey,
   secret: sessionSecret,
-  resave: false,
   saveUninitialized: true,
 }));
 
-// middleware Passport.js
+//Middleware Passport.js
 app.use(passport.initialize());
 app.use(passport.session());
 
-//??do i need this
+//Serve static
 app.use(express.static(path.join(__dirname + '/src')));
 
 //HBS configuration
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: path.join(__dirname + '/src/hbs/layouts')}));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname + '/src/hbs'));
-
-//Routing
-app.route('/')
-  .get((req, res) => {
-    res.render('./index', {title: 'uBuy'});
-  });
-
-app.route('/login')
-  .get((req, res) => {
-    res.render('./login');
-  });
-
-app.route('/register')
-  .get((req, res) => {
-    res.render('./register');
-  });
 
 //Webpack compiler for server
 app.use(webpackDevMiddleware(compiler, {
