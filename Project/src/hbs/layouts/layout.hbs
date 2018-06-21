@@ -16,11 +16,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" href="/login">Login</a>
-            <a class="nav-item nav-link" href="/register">Register</a>
+            {{#if user}}
+                <a class="nav-item nav-link" href="/logout">Logout</a>
+            {{else}}
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">Register</a>
+            {{/if}}
         </div>
     </div>
 </nav>
+
 
 {{{ body }}}
 

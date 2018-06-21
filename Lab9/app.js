@@ -17,28 +17,28 @@ const heartBeat = 1000;
 io.sockets.on('connect', (socket) => {
     console.log('Socket.io: połączono.');
 
-    socket.heartbeat = setTimeout(() => {
-      const {userName} = socket;
-      if(userName){
-        let index = users.indexOf(userName);
-        users.splice(index,1);
-        socket.broadcast.emit('loadUsers', users);
-        socket.disconnect();
-      }
-    }, heartBeat * 2);
-
-    socket.on('heartbeat', () => {
-      clearTimeout(socket.heartbeat);
-      socket.heartbeat = setTimeout(() => {
-        const {userName} = socket;
-        if(userName){
-          let index = users.indexOf(userName);
-          users.splice(index,1);
-          socket.broadcast.emit('loadUsers', users);
-          socket.disconnect();
-        }
-      }, heartBeat * 2);
-    });
+    // socket.heartbeat = setTimeout(() => {
+    //   const {userName} = socket;
+    //   if(userName){
+    //     let index = users.indexOf(userName);
+    //     users.splice(index,1);
+    //     socket.broadcast.emit('loadUsers', users);
+    //     socket.disconnect();
+    //   }
+    // }, heartBeat * 2);
+    //
+    // socket.on('heartbeat', () => {
+    //   clearTimeout(socket.heartbeat);
+    //   socket.heartbeat = setTimeout(() => {
+    //     const {userName} = socket;
+    //     if(userName){
+    //       let index = users.indexOf(userName);
+    //       users.splice(index,1);
+    //       socket.broadcast.emit('loadUsers', users);
+    //       socket.disconnect();
+    //     }
+    //   }, heartBeat * 2);
+    // });
 
 
   socket.emit('loadHistory', messages);

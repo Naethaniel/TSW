@@ -40,7 +40,7 @@ document.onreadystatechange = () => {
                 }
             });
 
-            socket.on('loadHistory', (messages) =>{
+            socket.on('loadHistory', (messages) => {
               messages.forEach((element) => {
                 let li = document.createElement('li');
                 li.innerHTML = `<li>${element.user} napisał: ${element.text}</li></br>`;

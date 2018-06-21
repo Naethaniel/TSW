@@ -12,9 +12,11 @@ document.onreadystatechange = () => {
         let send = document.getElementById('send');
         let text = document.getElementById('text');
         let message = document.getElementById('message');
-        let userUL = document.getElementById('users');
+        let rooms = document.getElementById('rooms');
+        let chatButton = document.getElementById('newChat');
         let socket;
         let username;
+        let chatRoom;
 
         status.textContent = 'Brak połącznia';
         close.disabled = true;
@@ -24,15 +26,11 @@ document.onreadystatechange = () => {
         open.addEventListener('click', () => {
             open.disabled = true;
             socket = io.connect(`http://${location.host}`);
-
             socket.on('connect', () => {
                 //pobranie od uzytkownika nazwy
                 username = prompt("Please enter your username");
                 if(username){
                     socket.emit('user', username);
-                    setInterval(() => {
-                      socket.emit('heartbeat', username);
-                    });
                     close.disabled = false;
                     send.disabled = false;
                     status.src = 'img/bullet_green.png';
@@ -40,44 +38,19 @@ document.onreadystatechange = () => {
                 }
             });
 
-            socket.on('loadHistory', (messages) =>{
-              messages.forEach((element) => {
-                let li = document.createElement('li');
-                li.innerHTML = `<li>${element.user} napisał: ${element.text}</li></br>`;
-                message.appendChild(li);
-              });
-            });
+            // socket.on('joinRoom', (chat) => {
+            //    chatRoom = chat;
+            //    socket.join(chat);
+            //    console.log(`Room: ${chat}`);
+            // });
+        });
 
-            socket.on('loadUsers', (users) => {
-              while(userUL.firstChild){
-                userUL.removeChild(userUL.firstChild);
-              }
-              users.forEach((element) => {
-                let li = document.createElement('li');
-                li.innerHTML = `${element}`;
-                userUL.appendChild(li);
-              });
-            });
-
-            socket.on('disconnect', () => {
-              socket.emit('disconnect', username);
-                open.disabled = false;
-                status.src = 'img/bullet_red.png';
-                console.log('Połączenie przez Socket.io zostało zakończone');
-            });
-
-            socket.on('error', (err) => {
-                message.textContent = `Błąd połączenia z serwerem: "${JSON.stringify(err)}"`;
-            });
-
-            socket.on('echo', (msg) => {
-              if(msg){
-                console.log(msg);
-                let li = document.createElement('li');
-                li.innerHTML = `<li>${msg.user} napisał: ${msg.text}</li></br>`;
-                message.appendChild(li);
-              }
-            });
+        chatButton.addEventListener('click', () =>{
+            let chat = prompt("Please enter name of the chat");
+            if(chat){
+                socket.emit('newChat', chat);
+                io.to(`/${chat}`).emit('connect');
+            }
         });
 
         // Zamknij połączenie po kliknięciu guzika „Rozłącz”
