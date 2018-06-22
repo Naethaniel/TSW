@@ -95,10 +95,10 @@ app.use((req, res, next) => {
 
 //Routing
 const index = require('./routes/index');
-// const login = require('./routes/login');
+const auctions = require('./routes/auctions');
 // const register = require('./routes/register');
 app.use('/', index);
-// app.use('/login', login);
+app.use('/auctions', auctions);
 // app.use('/register', register);
 
 const server = app.listen(8080, function () {

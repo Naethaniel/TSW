@@ -7,8 +7,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //index
 router.get('/', (req, res) => {
-  console.log(res.locals.user + '\n\n\n');
-  res.render('./index', {title: 'uBuy', user: res.locals.user});
+  res.render('./index', {title: 'uBuy'});
 });
 //login
 router.get('/login', (req, res) => {
@@ -31,9 +30,7 @@ router.post('/register', (req, res) => {
         let errors = req.validationErrors();
 
         if (errors) {
-            res.render('register', {
-                errors: errors
-            });
+          res.render('register', {errors});
         }
         else {
           //checking for email and username are already taken
@@ -48,7 +45,7 @@ router.post('/register', (req, res) => {
               });
             }
             else {
-              var newUser = new User({
+              let newUser = new User({
                 username: username,
                 password: password
               });
@@ -74,7 +71,6 @@ passport.use(new LocalStrategy(
       User.comparePassword(password, user.password, function (err, isMatch) {
         if (err) throw err;
         if (isMatch) {
-          console.log("Found user... loggin in?/// " + user.username + "\n\n\n\n\n");
           return done(null, user);
         } else {
           return done(null, false, {message: 'Invalid password'});
@@ -104,7 +100,7 @@ router.get('/logout', function (req, res) {
 
   req.flash('success_msg', 'You are logged out');
 
-  res.redirect('/login');
+  res.redirect('/');
 });
 
 module.exports = router;

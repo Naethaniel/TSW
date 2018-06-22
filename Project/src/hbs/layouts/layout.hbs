@@ -16,7 +16,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="/auctions">Show auctions</a>
             {{#if user}}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage auctions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/auctions/create">Create</a>
+                        <a class="dropdown-item" href="/auctions/created">List created</a>
+                        <a class="dropdown-item" href="/auctions/bidded">List bidded</a>
+                    </div>
+                </div>
                 <a class="nav-item nav-link" href="/logout">Logout</a>
             {{else}}
                 <a class="nav-item nav-link" href="/login">Login</a>

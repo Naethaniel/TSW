@@ -9,10 +9,13 @@ let UserSchema = mongoose.Schema({
     },
     password: {
         type: String
+    },
+    auctions: {
+        type: [String]
     }
 });
 
-var User = module.exports = mongoose.model('User', UserSchema);
+let User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.createUser = function(newUser, callback){
     bcrypt.genSalt(10, function(err, salt) {

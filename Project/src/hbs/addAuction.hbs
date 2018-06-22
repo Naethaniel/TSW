@@ -1,0 +1,29 @@
+<script src="../js/addAuction.js"></script>
+<h2 class="page-header">Create new Auction</h2>
+{{#if errors}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
+<form method="post" action="/auctions/create">
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" placeholder="Title" name="title">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input type="text" class="form-control" placeholder="Description" name="description">
+    </div>
+    <div class="form-group">
+        <label>Type of auction</label>
+        <select name="auctionType">
+            <option value="buyNow">Buy Now</option>
+            <option value="standard">Standard</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>End time</label>
+        <input id="datePicker" type="date" class="form-control" name="endtime">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
