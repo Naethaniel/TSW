@@ -13,10 +13,12 @@ module.exports = {
     },
   plugins: [
       new webpack.ProvidePlugin({
-        $: 'jquery',
+        $: "jquery",
         jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        Tether: 'tether'
+        "window.jQuery": 'jquery',
+        tether: 'tether',
+        Tether: 'tether',
+        'window.Tether': 'tether',
       })
   ],
     output: {
@@ -98,6 +100,16 @@ module.exports = {
           },
           {
             test: /.hbs$/, loader: 'handlebars-loader'
+          },
+          {
+            test: require.resolve('jquery'),
+            use: [{
+              loader: 'expose-loader',
+              options: 'jQuery'
+            },{
+              loader: 'expose-loader',
+              options: '$'
+            }]
           }
         ],
     },

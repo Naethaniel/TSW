@@ -12,5 +12,4 @@ $(() => {
   let minDate = year + '-' + month + '-' + day;
 
   $('#datePicker').attr('min', minDate);
-
 });
