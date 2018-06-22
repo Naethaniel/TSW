@@ -7,7 +7,8 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //index
 router.get('/', (req, res) => {
-    res.render('./index', {title: 'uBuy'});
+  console.log(res.locals.user + '\n\n\n');
+  res.render('./index', {title: 'uBuy', user: res.locals.user});
 });
 //login
 router.get('/login', (req, res) => {
@@ -73,6 +74,7 @@ passport.use(new LocalStrategy(
       User.comparePassword(password, user.password, function (err, isMatch) {
         if (err) throw err;
         if (isMatch) {
+          console.log("Found user... loggin in?/// " + user.username + "\n\n\n\n\n");
           return done(null, user);
         } else {
           return done(null, false, {message: 'Invalid password'});
@@ -102,7 +104,7 @@ router.get('/logout', function (req, res) {
 
   req.flash('success_msg', 'You are logged out');
 
-  res.redirect('/users/login');
+  res.redirect('/login');
 });
 
 module.exports = router;

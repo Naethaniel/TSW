@@ -1,100 +1,88 @@
-//Express
+//Imports
+const path = require('path');
 const express = require('express');
-const app = express();
-
-//Webpack
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
-const compiler = webpack(webpackConfig);
-
-//Handlebars
-const hbs = require('express-handlebars');
-
-//Path
-const path = require('path');
-
-//Passport.js
-const passport = require('passport');
-
-//Middleware Passport.js
-app.use(passport.initialize());
-app.use(passport.session());
-
-//Socket.io
-const socketIo = require('socket.io');
-const passportSocketIo = require('passport.socketio');
-
-//MongoDb
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const hbs = require('express-handlebars');
+const passport = require('passport');
+const socketIo = require('socket.io');
+const passportSocketIo = require('passport.socketio');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
+const expressValidator = require('express-validator');
+
+//MongoDb
 mongoose.connect('mongodb://localhost/uBuy');
 const db = mongoose.connection;
 
-//Cookie and body parser
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+//Init app
+const app = express();
 
-//Session
-const sessionSecret = 'iLoveSecrets#222';
-const sessionKey = 'express.sid';
-const session = require('express-session');
-app.use(session({
-    key: sessionKey,
-    secret: sessionSecret,
-    saveUninitialized: true,
-    resave: true,
-}));
-
-//Flash
-const flash = require('connect-flash');
-app.use(flash());
-
-//Serve static
-app.use(express.static(path.join(__dirname + '/src')));
+//Webpack
+const compiler = webpack(webpackConfig);
 
 //HBS configuration
 app.engine('hbs', hbs({
-    extname: 'hbs',
-    defaultLayout: 'layout',
-    layoutsDir: path.join(__dirname + '/src/hbs/layouts')
+  extname: 'hbs',
+  defaultLayout: 'layout',
+  layoutsDir: path.join(__dirname + '/src/hbs/layouts')
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname + '/src/hbs'));
 
+//Cookie and body parser
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+//Serve static
+app.use(express.static(path.join(__dirname + '/src')));
+//Session
+const sessionSecret = 'iLoveSecrets#222';
+const sessionKey = 'express.sid';
+app.use(session({
+  key: sessionKey,
+  secret: sessionSecret,
+  saveUninitialized: true,
+  resave: true,
+}));
+//Middleware Passport.js
+app.use(passport.initialize());
+app.use(passport.session());
+//Express validator
+app.use(expressValidator({
+  errorFormatter: (param, msg, value) => {
+    let namespace = param.split('.')
+      , root = namespace.shift()
+      , formParam = root;
+    while (namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param: formParam,
+      msg: msg,
+      value: value
+    };
+  }
+}));
 //Webpack compiler for server
 app.use(webpackDevMiddleware(compiler, {
-    hot: true,
-    filename: 'bundle.js',
-    publicPath: '/',
-    stats: {
-        colors: true,
-    },
-    historyApiFallback: true,
+  hot: true,
+  filename: 'bundle.js',
+  publicPath: '/',
+  stats: {
+    colors: true,
+  },
+  historyApiFallback: true,
 }));
-
-//Express validator
-const expressValidator = require('express-validator');
-app.use(expressValidator({
-    errorFormatter: (param, msg, value) => {
-        let namespace = param.split('.')
-            , root = namespace.shift()
-            , formParam = root;
-        while (namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
-        }
-        return {
-            param: formParam,
-            msg: msg,
-            value: value
-        };
-    }
-}));
+//Flash
+app.use(flash());
 
 //Global variables
 app.use((req, res, next) => {
@@ -105,16 +93,16 @@ app.use((req, res, next) => {
     next();
 });
 
-const server = app.listen(8080, function () {
-    const host = server.address().address;
-    const port = server.address().port;
-    console.log('Example app listening at http://%s:%s', host, port);
-});
-
 //Routing
 const index = require('./routes/index');
 // const login = require('./routes/login');
-const register = require('./routes/register');
+// const register = require('./routes/register');
 app.use('/', index);
 // app.use('/login', login);
 // app.use('/register', register);
+
+const server = app.listen(8080, function () {
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log('Example app listening at http://%s:%s', host, port);
+});
