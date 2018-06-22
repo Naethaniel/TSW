@@ -36,3 +36,8 @@ module.exports.getAuctionsByCreator = (id, callback) => {
   let query = {creator: id};
   Auction.find(query,callback);
 };
+
+module.exports.getAuctions = (skip, limit, callback) => {
+  let query = Auction.find().limit(limit).skip(skip);
+  query.exec(callback);
+};

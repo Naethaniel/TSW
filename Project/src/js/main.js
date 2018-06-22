@@ -5,6 +5,7 @@ require('../hbs/layouts/layout.hbs');
 require('./login');
 require('./register');
 require('./addAuction');
+require('./viewAuctions');
 
 import 'bootstrap';
 
