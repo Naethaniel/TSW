@@ -29,6 +29,10 @@ let Auction = module.exports = mongoose.model('Auction', AuctionSchema);
 
 module.exports.createAuction = (newAuction, callback) =>{
   newAuction.startTime = new Date();
-  console.log("Auction start time: " + newAuction.startTime.toString());
   newAuction.save(callback);
+};
+
+module.exports.getAuctionsByCreator = (id, callback) => {
+  let query = {creator: id};
+  Auction.find(query,callback);
 };

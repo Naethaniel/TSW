@@ -15,12 +15,17 @@ router.get('/bidded', (req, res) => {
 });
 
 router.get('/created', (req, res) => {
-  res.render('viewCreatedAuctions');
+  let id = req.user.id;
+  Auction.getAuctionsByCreator(id, (err, collection) => {
+    if (err) throw err;
+    console.log(collection);
+    res.render('viewCreatedAuctions', {collection});
+  });
 });
 
 router.post('/create', (req, res) => {
   let title = req.body.title;
-  let description = req.body.title;
+  let description = req.body.description;
   let type = req.body.auctionType;
   let endTime = req.body.endtime;
   let creator = req.user.id;
