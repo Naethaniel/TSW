@@ -15,7 +15,6 @@ $(() => {
   const handlePagination = (json) => {
     if (json.status === 200) {
       let {collection, userName} = json.responseJSON;
-      console.log(collection);
       if(collection.length === 0){
         $('#paginationButton').attr('disabled', true);
         alert("There are no other auctions right now");

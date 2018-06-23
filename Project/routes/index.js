@@ -4,6 +4,13 @@ const passport = require('passport');
 let User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy;
 
+const ensureAuthenticated = (req, res, next) =>{
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+};
 
 //index
 router.get('/', (req, res) => {
@@ -95,7 +102,7 @@ router.post('/login',
     res.redirect('/');
   });
 
-router.get('/logout', function (req, res) {
+router.get('/logout',ensureAuthenticated , function (req, res) {
   req.logout();
 
   req.flash('success_msg', 'You are logged out');

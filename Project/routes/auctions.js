@@ -2,7 +2,15 @@ const express = require('express');
 const router = express.Router();
 let Auction = require('../models/auction');
 
-router.get('/create', (req, res) => {
+const ensureAuthenticated = (req, res, next) =>{
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
+router.get('/create',ensureAuthenticated , (req, res) => {
   res.render('addAuction');
 });
 
@@ -30,11 +38,11 @@ router.post('/', (req, res) => {
   });
 });
 
-  router.get('/bidded', (req, res) => {
+  router.get('/bidded',ensureAuthenticated , (req, res) => {
     res.render('viewBiddedAuctions');
 });
 
-  router.get('/created', (req, res) => {
+  router.get('/created',ensureAuthenticated , (req, res) => {
     let id = req.user.id;
     Auction.getAuctionsByCreator(id, (err, collection) => {
       if (err) throw err;
@@ -42,7 +50,7 @@ router.post('/', (req, res) => {
     });
 });
 
-  router.post('/create', (req, res) => {
+  router.post('/create',ensureAuthenticated , (req, res) => {
     let title = req.body.title;
     let description = req.body.description;
     let type = req.body.auctionType;
