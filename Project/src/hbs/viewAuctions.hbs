@@ -13,8 +13,14 @@
                     {{/if}}</li>
                     <li class="list-group-item">Price: {{this.price}}</li>
                     <li class="list-group-item">End time: {{this.endTime}}</li>
-                    {{#if user}}
-                        <li>user here</li>
+                    {{#if ../user}}
+                        {{#if this.isBuyNow}}
+                            <button id="buyNowButton" type="submit" class="btn btn-default">Buy now!</button>
+                        {{else}}
+                            <input type="number" step="0.01" min="0" class="form-control" placeholder="Bid"
+                                   name="bid">
+                            <button id="bidButton" type="submit" class="btn btn-default">Bid!</button>
+                        {{/if}}
                     {{/if}}
                 </ul>
                 <br/>
@@ -26,7 +32,4 @@
     <ul class="list-group">
         <li>There are no auctions yet.</li>
     </ul>
-{{/if}}
-{{#if user}}
-    <li>user here</li>
 {{/if}}

@@ -18,10 +18,15 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   let skip = req.body.skip || 0;
   let limit = req.body.limit || 2;
+  let user = req.user;
   Auction.getAuctions(skip, limit, (err, collection) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(collection));
+    if(user){
+      res.send(JSON.stringify({collection, userName: user.username}));
+    }else{
+      res.send(JSON.stringify({collection, userName: null}));
+    }
   });
 });
 
