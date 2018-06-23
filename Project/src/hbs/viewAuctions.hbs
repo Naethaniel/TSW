@@ -1,23 +1,32 @@
+<h2 class="page-header">List of current auctions:</h2>
 {{#if collection}}
     <div id="auctionList">
-    {{#each collection}}
-        <ul class="list-group">
-            <li class="list-group-item">Title: {{this.title}}</li>
-            <li class="list-group-item">Description: {{this.description}}</li>
-            <li class="list-group-item">Type: {{#if this.isBuyNow}}
-                Buy now
-            {{else}}
-                Standard
-            {{/if}}</li>
-            <li class="list-group-item">Price: {{this.price}}</li>
-            <li class="list-group-item">End time: {{this.endTime}}</li>
-        </ul>
-        <br/>
-    {{/each}}
+        {{#each collection}}
+            <div id="auction">
+                <ul class="list-group">
+                    <li class="list-group-item">Title: {{this.title}}</li>
+                    <li class="list-group-item">Description: {{this.description}}</li>
+                    <li class="list-group-item">Type: {{#if this.isBuyNow}}
+                        Buy now
+                    {{else}}
+                        Standard
+                    {{/if}}</li>
+                    <li class="list-group-item">Price: {{this.price}}</li>
+                    <li class="list-group-item">End time: {{this.endTime}}</li>
+                    {{#if user}}
+                        <li>user here</li>
+                    {{/if}}
+                </ul>
+                <br/>
+            </div>
+        {{/each}}
     </div>
     <button id="paginationButton" type="submit" class="btn btn-default">Load more</button>
 {{else}}
     <ul class="list-group">
         <li>There are no auctions yet.</li>
     </ul>
+{{/if}}
+{{#if user}}
+    <li>user here</li>
 {{/if}}

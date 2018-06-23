@@ -20,7 +20,6 @@ router.post('/', (req, res) => {
   let limit = req.body.limit || 2;
   Auction.getAuctions(skip, limit, (err, collection) => {
     if (err) throw err;
-    console.log("paginate/");
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(collection));
   });

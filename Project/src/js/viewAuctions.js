@@ -16,7 +16,10 @@ $(() => {
     if (json.status === 200) {
       let collection = json.responseJSON;
       console.log(collection);
-      if(collection.length === 0) $('#paginationButton').attr('disabled', true);
+      if(collection.length === 0){
+        $('#paginationButton').attr('disabled', true);
+        alert("There are no other auctions right now");
+      }
       collection.forEach(elem => {
         $('#auctionList').append(`<ul class="list-group">
             <li class="list-group-item">Title: ${elem.title}</li>
