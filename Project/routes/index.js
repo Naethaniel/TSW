@@ -68,14 +68,13 @@ router.post('/register', (req, res) => {
 });
 
 passport.use(new LocalStrategy(
-  function (username, password, done) {
-    User.getUserByUsername(username, function (err, user) {
+  (username, password, done) =>{
+    User.getUserByUsername(username, (err, user) => {
       if (err) throw err;
       if (!user) {
         return done(null, false, {message: 'Unknown User'});
       }
-
-      User.comparePassword(password, user.password, function (err, isMatch) {
+      User.comparePassword(password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
           return done(null, user);
@@ -86,23 +85,23 @@ passport.use(new LocalStrategy(
     });
   }));
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
-  User.getUserById(id, function (err, user) {
+passport.deserializeUser((id, done) => {
+  User.getUserById(id, (err, user) => {
     done(err, user);
   });
 });
 
 router.post('/login',
   passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login', failureFlash: true}),
-  function (req, res) {
+  (req, res) => {
     res.redirect('/');
   });
 
-router.get('/logout',ensureAuthenticated , function (req, res) {
+router.get('/logout',ensureAuthenticated , (req, res) => {
   req.logout();
 
   req.flash('success_msg', 'You are logged out');
