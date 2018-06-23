@@ -45,6 +45,7 @@ router.post('/', (req, res) => {
     let endTime = req.body.endtime;
     let creator = req.user.id;
     let isBuyNow = (type === 'buyNow');
+    let price = req.body.price;
 
     console.log(title);
     console.log(description);
@@ -52,11 +53,14 @@ router.post('/', (req, res) => {
     console.log(endTime);
     console.log(creator);
     console.log(isBuyNow);
+    console.log(price);
 
     //validation
     req.checkBody('title', 'Title must not be empty').notEmpty();
     req.checkBody('description', 'Description must not be empty').notEmpty();
     req.checkBody('endtime', 'You must set an end time for auction').notEmpty();
+    req.checkBody('price', 'Price must not be empty').notEmpty();
+    req.checkBody('price', 'Price must be a number').isNumeric();
 
     let errors = req.validationErrors();
 
@@ -64,7 +68,7 @@ router.post('/', (req, res) => {
       res.render('addAuction', {errors});
     } else {
       let newAuction = new Auction({
-        title, description, isBuyNow, currentWinner: null, endTime, creator
+        title, description, isBuyNow, currentWinner: null, endTime, creator, price
       });
       console.log(newAuction);
       Auction.createAuction(newAuction, (err, auction) => {

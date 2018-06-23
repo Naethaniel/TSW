@@ -22,6 +22,12 @@ let AuctionSchema = mongoose.Schema({
   },
   creator: {
     type: String
+  },
+  price: {
+    type: Number
+  },
+  isFinished: {
+    type: Boolean
   }
 });
 
@@ -29,6 +35,7 @@ let Auction = module.exports = mongoose.model('Auction', AuctionSchema);
 
 module.exports.createAuction = (newAuction, callback) =>{
   newAuction.startTime = new Date();
+  newAuction.isFinished = false;
   newAuction.save(callback);
 };
 
