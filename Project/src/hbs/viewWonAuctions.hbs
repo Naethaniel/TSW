@@ -1,0 +1,25 @@
+<h2 class="page-header">List of won auctions:</h2>
+{{#if collection}}
+    <div id="auctionList">
+        {{#each collection}}
+                <div id="{{this.id}}">
+                    <ul class="list-group">
+                        <li class="list-group-item">Title: {{this.title}}</li>
+                        <li class="list-group-item">Description: {{this.description}}</li>
+                        <li class="list-group-item">Type: {{#if this.isBuyNow}}
+                            Buy now
+                        {{else}}
+                            Standard
+                        {{/if}}</li>
+                        <li class="list-group-item">Price: {{this.price}}</li>
+                        <li class="list-group-item">End time: {{this.endTime}}</li>
+                    </ul>
+                    <br/>
+                </div>
+        {{/each}}
+    </div>
+{{else}}
+    <ul class="list-group">
+        <li>There are no won auctions yet.</li>
+    </ul>
+{{/if}}

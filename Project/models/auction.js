@@ -49,6 +49,11 @@ module.exports.getAuctions = (skip, limit, callback) => {
   query.exec(callback);
 };
 
+module.exports.getWonAuctions = (userId, callback) =>{
+  let query = Auction.find({currentWinner: userId, isFinished: true});
+  query.exec(callback);
+};
+
 module.exports.getById = (id, callback) => {
   let query = {_id: id};
   Auction.find(query, callback);

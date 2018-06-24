@@ -51,15 +51,6 @@ router.post('/buy', ensureAuthenticated, (req, res) => {
       res.sendStatus(200);
     });
   }
-//   Auction.getById(auctionId, (err, auction) => {
-//     if (err) throw err;
-//
-//     auction.save((err)=> {
-//       if(err) throw err;
-//       res.sendStatus(200);
-//     });
-//   });
-// }
   else {
     res.sendStatus(400);
   }
@@ -81,8 +72,13 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
   }
 });
 
-  router.get('/bidded',ensureAuthenticated , (req, res) => {
-    res.render('viewBiddedAuctions');
+  router.get('/won',ensureAuthenticated , (req, res) => {
+    let id = req.user.id;
+    Auction.getWonAuctions(id, (err, collection) => {
+      if(err) throw err;
+      res.render('viewWonAuctions', {collection});
+    });
+
 });
 
   router.get('/created',ensureAuthenticated , (req, res) => {
