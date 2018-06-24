@@ -60,5 +60,5 @@ module.exports.getById = (id, callback) => {
 };
 
 module.exports.buy = (auctionId, userId, callback) =>{
-  Auction.update({_id: auctionId}, {$set: {isFinished: true, currentWinner: userId}}, callback);
+  Auction.update({_id: auctionId, isFinished: false}, {$set: {isFinished: true, currentWinner: userId}}, callback);
 };

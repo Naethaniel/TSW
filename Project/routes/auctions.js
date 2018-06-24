@@ -47,8 +47,12 @@ router.post('/buy', ensureAuthenticated, (req, res) => {
 
     Auction.buy(auctionId, userId, (err, auction) => {
       if (err) throw err;
-      console.log(auction);
-      res.sendStatus(200);
+      if (auction.nModified !== 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+
     });
   }
   else {
@@ -62,8 +66,6 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
   let ammount = parseInt(req.body.ammount);
   let userId = user._id;
   if (auctionId && ammount) {
-    console.log(auctionId);
-    console.log(ammount);
     //create bidAuction in the auction model
     res.sendStatus(200);
 
@@ -98,13 +100,13 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
     let isBuyNow = (type === 'buyNow');
     let price = req.body.price;
 
-    console.log(title);
-    console.log(description);
-    console.log(type);
-    console.log(endTime);
-    console.log(creator);
-    console.log(isBuyNow);
-    console.log(price);
+    // console.log(title);
+    // console.log(description);
+    // console.log(type);
+    // console.log(endTime);
+    // console.log(creator);
+    // console.log(isBuyNow);
+    // console.log(price);
 
     //validation
     req.checkBody('title', 'Title must not be empty').notEmpty();
@@ -121,15 +123,12 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
       let newAuction = new Auction({
         title, description, isBuyNow, currentWinner: null, endTime, creator, price
       });
-      console.log(newAuction);
       Auction.createAuction(newAuction, (err, auction) => {
         if (err) throw err;
-        console.log(auction);
       });
       req.flash('success_msg', 'You successfully created new auction');
       res.redirect('/auctions/created');
     }
-
   });
 
   module.exports = router;
