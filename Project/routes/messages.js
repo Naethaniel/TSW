@@ -2,21 +2,63 @@ const express = require('express');
 const router = express.Router();
 let Chat = require('../models/chat');
 
-const chatMock = [{
-  user1: "Karol",
-  user2: "Andzrej",
-  messages: [[
+// const chatMock = [{
+//   user1: "Karol",
+//   user2: "Andzrej",
+//   messages: [[
+//     {
+//       username: "Karol",
+//       message: "Siemka"
+//     },
+//     [{
+//       username: "Andrzej",
+//       message: "Elo"
+//     }]
+//   ]]
+// },
+//   {
+//     user1: "Karol",
+//     user2: "Andzrej",
+//     messages: [[
+//       {
+//         username: "Karol",
+//         message: "Siemka"
+//       },
+//       [{
+//         username: "Andrzej",
+//         message: "Elo"
+//       }]
+//     ]]
+//   }
+// ];
+
+const chatMock = {
+  username: 'Karol',
+  data: [
     {
-      username: "Karol",
-      message: "Siemka"
+      from: 'Andrzej',
+      messages: [{
+        message: 'pierwsza',
+        username: 'Karol'
+      },
+        {
+          message: 'druga',
+          username: 'Andrzej'
+        }]
     },
-    [{
-      username: "Andrzej",
-      message: "Elo"
-    }]
-  ]]
-}
-];
+    {
+      from: 'Pawel',
+      messages: [{
+        message: 'pierwsza pawel',
+        username: 'Karol'
+      },
+        {
+          message: 'druga pawel',
+          username: 'Pawel'
+        }]
+    }
+  ]
+};
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
