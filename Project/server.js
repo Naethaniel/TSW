@@ -93,16 +93,30 @@ app.use((req, res, next) => {
     next();
 });
 
+//Socket.IO
+const httpServer = require('http').Server(app);
+const io = require('socket.io')(httpServer);
+// app.io = io;
+// app.use((req, res, next) => {
+//   req.io = io;
+//   next();
+// });
+// io.sockets.on('connect', (socket) => {
+//   console.log('Socket.io: połączono.');
+// });
+
 //Routing
 const index = require('./routes/index');
 const auctions = require('./routes/auctions');
+const messages = require('./routes/messages')(io);
 // const register = require('./routes/register');
 app.use('/', index);
 app.use('/auctions', auctions);
-// app.use('/register', register);
+app.use('/messages', messages);
 
 const server = app.listen(8080, function () {
   const host = server.address().address;
   const port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
+

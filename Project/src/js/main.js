@@ -6,6 +6,9 @@ require('./login');
 require('./register');
 require('./addAuction');
 require('./viewAuctions');
+require('./messages');
+
+
 
 import 'bootstrap';
 
