@@ -38,6 +38,38 @@ router.get('/paginate', (req, res) => {
   });
 });
 
+router.post('/buy', ensureAuthenticated, (req, res) => {
+  let user = res.locals.user;
+  console.log(user);
+  let auctionId = req.body.id;
+  let userId = user._id;
+  if (auctionId) {
+    //create buyAuction in the auction model
+    console.log(auctionId);
+    console.log(userId);
+    res.sendStatus(200);
+  }
+  else {
+    res.sendStatus(400);
+  }
+});
+
+router.post('/bid', ensureAuthenticated, (req, res) => {
+  let user = res.locals.user;
+  let auctionId = req.body.id;
+  let ammount = parseInt(req.body.ammount);
+  let userId = user._id;
+  if (auctionId && ammount) {
+    console.log(auctionId);
+    console.log(ammount);
+    //create bidAuction in the auction model
+    res.sendStatus(200);
+
+  } else {
+    res.sendStatus(400);
+  }
+});
+
   router.get('/bidded',ensureAuthenticated , (req, res) => {
     res.render('viewBiddedAuctions');
 });

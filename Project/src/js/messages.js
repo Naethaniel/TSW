@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 $(()=>{
-  console.log(`http://${location.host}/messages`);
+  // console.log(`http://${location.host}/messages`);
   // let socket = io(`http://${location.host}`);
   let table = $('#table');
   let userRow = $('#userRow');

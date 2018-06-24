@@ -1,6 +1,5 @@
 $(() => {
   let skip = 2;
-
   const createElement = (elem, userName) => {
     let string = `<div id="${elem._id}">
         <ul class="list-group">
@@ -31,9 +30,51 @@ $(() => {
       url: "/auctions/paginate",
       type: "GET",
       data: {skip},
-      contentType: "application/json",
+      // contentType: "application/json",
       complete: handlePagination
     });
+  };
+
+  const buy = (id) => {
+    $.ajax({
+      url: "/auctions/buy",
+      type: "POST",
+      data: JSON.stringify({id}),
+      contentType: "application/json",
+      complete: handleBuy
+    });
+  };
+
+  const bid = (id, ammount) => {
+    $.ajax({
+      url: "/auctions/bid",
+      type: "POST",
+      data: JSON.stringify({id, ammount}),
+      contentType: "application/json",
+      complete: handleBid
+    });
+  };
+
+  const handleBuy = (response) => {
+    if (response.status === 200) {
+      //remove this element from the list?
+      alert('kupiles gratulacje');
+    }
+    else {
+      alert('cos poszlo nie tak');
+      console.log(response);
+    }
+  };
+
+  const handleBid = (response) => {
+    if (response.status === 200) {
+      //remove this element from the list?
+      alert('zbidowales gratulacje');
+    }
+    else {
+      alert('cos poszlo nie tak');
+      console.log(response);
+    }
   };
 
   const handlePagination = (json) => {
@@ -54,7 +95,24 @@ $(() => {
     skip += 2;
   });
 
-  //delegowac event onclick buy now/bid do auctionList
+  //delegowac event onclick buy now/bid do auctionList ---> cos nie chce dzialac ;/ -> zmienic z geta na post wysylac jsonem
   //ustawic na inpucie dla bida min wartosc z elem.price
+
+
+  //DODAC USERA? albo pobrac ro z req.locals po serwerze
+//buyNow!
+  $('#auctionList').on('click', ' #buyNowButton', (e) => {
+    let id = $(e.target).parent().parent().attr('id');
+    //post ajax to the auctions/buy?id
+    buy(id);
+  });
+
+  //bid
+  $('#auctionList').on('click', '#bidButton', (e) => {
+    let id = $(e.target).parent().parent().attr('id');
+    let ammount = $(e.target).prev().val();
+    //post ajax to the auctions/bid?id&?ammount
+    bid(id, ammount);
+  });
 
 });
