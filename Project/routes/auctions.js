@@ -40,15 +40,26 @@ router.get('/paginate', (req, res) => {
 
 router.post('/buy', ensureAuthenticated, (req, res) => {
   let user = res.locals.user;
-  console.log(user);
   let auctionId = req.body.id;
   let userId = user._id;
   if (auctionId) {
     //create buyAuction in the auction model
-    console.log(auctionId);
-    console.log(userId);
-    res.sendStatus(200);
+
+    Auction.buy(auctionId, userId, (err, auction) => {
+      if (err) throw err;
+      console.log(auction);
+      res.sendStatus(200);
+    });
   }
+//   Auction.getById(auctionId, (err, auction) => {
+//     if (err) throw err;
+//
+//     auction.save((err)=> {
+//       if(err) throw err;
+//       res.sendStatus(200);
+//     });
+//   });
+// }
   else {
     res.sendStatus(400);
   }

@@ -45,6 +45,15 @@ module.exports.getAuctionsByCreator = (id, callback) => {
 };
 
 module.exports.getAuctions = (skip, limit, callback) => {
-  let query = Auction.find().limit(limit).skip(skip);
+  let query = Auction.find({isFinished: false}).limit(limit).skip(skip);
   query.exec(callback);
+};
+
+module.exports.getById = (id, callback) => {
+  let query = {_id: id};
+  Auction.find(query, callback);
+};
+
+module.exports.buy = (auctionId, userId, callback) =>{
+  Auction.update({_id: auctionId}, {$set: {isFinished: true, currentWinner: userId}}, callback);
 };
