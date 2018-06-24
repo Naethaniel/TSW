@@ -41,11 +41,11 @@ router.get('/paginate', (req, res) => {
 router.post('/buy', ensureAuthenticated, (req, res) => {
   let user = res.locals.user;
   let auctionId = req.body.id;
-  let userId = user._id;
+  let userName = user.username;
   if (auctionId) {
     //create buyAuction in the auction model
 
-    Auction.buy(auctionId, userId, (err, auction) => {
+    Auction.buy(auctionId, userName, (err, auction) => {
       if (err) throw err;
       if (auction.nModified !== 0) {
         res.sendStatus(200);
@@ -75,8 +75,8 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
 });
 
   router.get('/won',ensureAuthenticated , (req, res) => {
-    let id = req.user.id;
-    Auction.getWonAuctions(id, (err, collection) => {
+    let username = req.user.username;
+    Auction.getWonAuctions(username, (err, collection) => {
       if(err) throw err;
       res.render('viewWonAuctions', {collection});
     });

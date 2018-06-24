@@ -36,6 +36,7 @@ let Auction = module.exports = mongoose.model('Auction', AuctionSchema);
 module.exports.createAuction = (newAuction, callback) =>{
   newAuction.startTime = new Date();
   newAuction.isFinished = false;
+  newAuction.currentWinner = '';
   newAuction.save(callback);
 };
 
@@ -49,8 +50,8 @@ module.exports.getAuctions = (skip, limit, callback) => {
   query.exec(callback);
 };
 
-module.exports.getWonAuctions = (userId, callback) =>{
-  let query = Auction.find({currentWinner: userId, isFinished: true});
+module.exports.getWonAuctions = (userName, callback) =>{
+  let query = Auction.find({currentWinner: userName, isFinished: true});
   query.exec(callback);
 };
 
@@ -59,6 +60,6 @@ module.exports.getById = (id, callback) => {
   Auction.find(query, callback);
 };
 
-module.exports.buy = (auctionId, userId, callback) =>{
-  Auction.update({_id: auctionId, isFinished: false}, {$set: {isFinished: true, currentWinner: userId}}, callback);
+module.exports.buy = (auctionId, userName, callback) =>{
+  Auction.update({_id: auctionId, isFinished: false}, {$set: {isFinished: true, currentWinner: userName, endTime: new Date()}}, callback);
 };
