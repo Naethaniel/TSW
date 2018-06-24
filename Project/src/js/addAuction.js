@@ -15,5 +15,5 @@ $(() => {
 
   let minDate = year + '-' + month + '-' + day + 'T' + hour + ':' + minutes + ':' + seconds;
 
-  // $('#datePicker').attr('min', minDate);
+  $('#datePicker').attr('min', minDate);
 });
