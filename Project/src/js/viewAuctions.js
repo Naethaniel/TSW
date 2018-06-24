@@ -85,7 +85,9 @@ $(() => {
         alert("There are no other auctions right now");
       }
       collection.forEach(elem => {
-        $('#auctionList').append(createElement(elem, userName));
+        if(!elem.isFinished){
+          $('#auctionList').append(createElement(elem, userName));
+        }
       });
     }
   };

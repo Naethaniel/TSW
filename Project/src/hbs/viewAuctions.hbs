@@ -2,29 +2,33 @@
 {{#if collection}}
     <div id="auctionList">
         {{#each collection}}
-            <div id="{{this.id}}">
-                <ul class="list-group">
-                    <li class="list-group-item">Title: {{this.title}}</li>
-                    <li class="list-group-item">Description: {{this.description}}</li>
-                    <li class="list-group-item">Type: {{#if this.isBuyNow}}
-                        Buy now
-                    {{else}}
-                        Standard
-                    {{/if}}</li>
-                    <li class="list-group-item">Price: {{this.price}}</li>
-                    <li class="list-group-item">End time: {{this.endTime}}</li>
-                    {{#if ../user}}
-                        {{#if this.isBuyNow}}
-                            <button id="buyNowButton" type="submit" class="btn btn-default">Buy now!</button>
+            {{#if this.isFinished}}
+            {{else}}
+                <div id="{{this.id}}">
+                    <ul class="list-group">
+                        <li class="list-group-item">Title: {{this.title}}</li>
+                        <li class="list-group-item">Description: {{this.description}}</li>
+                        <li class="list-group-item">Type: {{#if this.isBuyNow}}
+                            Buy now
                         {{else}}
-                            <input type="number" step="0.01" min="{{math this.price "+" 1}}" class="form-control" placeholder="Bid"
-                                   name="bid">
-                            <button id="bidButton" type="submit" class="btn btn-default">Bid!</button>
+                            Standard
+                        {{/if}}</li>
+                        <li class="list-group-item">Price: {{this.price}}</li>
+                        <li class="list-group-item">End time: {{this.endTime}}</li>
+                        {{#if ../user}}
+                            {{#if this.isBuyNow}}
+                                <button id="buyNowButton" type="submit" class="btn btn-default">Buy now!</button>
+                            {{else}}
+                                <input type="number" step="0.01" min="{{math this.price "+" 1}}" class="form-control"
+                                       placeholder="Bid"
+                                       name="bid">
+                                <button id="bidButton" type="submit" class="btn btn-default">Bid!</button>
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
-                </ul>
-                <br/>
-            </div>
+                    </ul>
+                    <br/>
+                </div>
+            {{/if}}
         {{/each}}
     </div>
     <button id="paginationButton" type="submit" class="btn btn-default">Load more</button>
