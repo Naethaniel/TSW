@@ -67,3 +67,7 @@ module.exports.buy = (auctionId, userName, callback) => {
 module.exports.bid = (auctionId, userName, amount, callback) => {
   Auction.update({_id: auctionId, isFinished: false}, {$set: {currentWinner: userName, price: amount}}, callback);
 };
+
+module.exports.endStandardAuction = (auctionId, callback) => {
+  Auction.update({_id: auctionId}, {$set: {isFinished: true}}, callback);
+};

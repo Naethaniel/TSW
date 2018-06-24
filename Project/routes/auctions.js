@@ -127,8 +127,19 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
       });
       Auction.createAuction(newAuction, (err, auction) => {
         if (err) throw err;
+        if(!auction.isBuyNow){
+          let calculated = auction.endTime - auction.startTime;
+          setTimeout(() =>{
+            Auction.endStandardAuction(auction._id, (err,result) =>{
+              if(err) throw err;
+              console.log(result);
+            });
+          }, calculated);
+        }
       });
       req.flash('success_msg', 'You successfully created new auction');
+
+
       res.redirect('/auctions/created');
     }
   });
