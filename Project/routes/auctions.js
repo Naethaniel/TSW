@@ -44,15 +44,13 @@ router.post('/buy', ensureAuthenticated, (req, res) => {
   let userName = user.username;
   if (auctionId) {
     //create buyAuction in the auction model
-
-    Auction.buy(auctionId, userName, (err, auction) => {
+    Auction.buy(auctionId, userName, (err, response) => {
       if (err) throw err;
-      if (auction.nModified !== 0) {
+      if (response.nModified !== 0) {
         res.sendStatus(200);
       } else {
         res.sendStatus(400);
       }
-
     });
   }
   else {
@@ -63,12 +61,17 @@ router.post('/buy', ensureAuthenticated, (req, res) => {
 router.post('/bid', ensureAuthenticated, (req, res) => {
   let user = res.locals.user;
   let auctionId = req.body.id;
-  let ammount = parseInt(req.body.ammount);
-  let userId = user._id;
-  if (auctionId && ammount) {
-    //create bidAuction in the auction model
-    res.sendStatus(200);
-
+  let amount = parseInt(req.body.amount);
+  let userName = user.username;
+  if (auctionId && amount) {
+    Auction.bid(auctionId, userName, amount, (err, response) => {
+      if (err) throw err;
+      if (response.nModified !== 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    });
   } else {
     res.sendStatus(400);
   }
@@ -80,7 +83,6 @@ router.post('/bid', ensureAuthenticated, (req, res) => {
       if(err) throw err;
       res.render('viewWonAuctions', {collection});
     });
-
 });
 
   router.get('/created',ensureAuthenticated , (req, res) => {

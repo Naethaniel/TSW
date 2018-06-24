@@ -46,11 +46,11 @@ $(() => {
     });
   };
 
-  const bid = (id, ammount) => {
+  const bid = (id, amount) => {
     $.ajax({
       url: "/auctions/bid",
       type: "POST",
-      data: JSON.stringify({id, ammount}),
+      data: JSON.stringify({id, amount}),
       contentType: "application/json",
       complete: handleBid
     });
@@ -58,7 +58,6 @@ $(() => {
 
   const handleBuy = (response) => {
     if (response.status === 200) {
-      //remove this element from the list?
       alert('Congratulations, you won the auction');
       $(`#${id}`).remove();
     }
@@ -70,7 +69,6 @@ $(() => {
 
   const handleBid = (response) => {
     if (response.status === 200) {
-      //remove this element from the list?
       alert('Congratulations, you bid the auction');
     }
     else {
@@ -113,10 +111,10 @@ $(() => {
 
   //bid
   $('#auctionList').on('click', '#bidButton', (e) => {
-    let id = $(e.target).parent().parent().attr('id');
-    let ammount = $(e.target).prev().val();
-    //post ajax to the auctions/bid?id&?ammount
-    bid(id, ammount);
+    id = $(e.target).parent().parent().attr('id');
+    let amount = $(e.target).prev().val();
+    //post ajax to the auctions/bid?id&?amount
+    bid(id, amount);
   });
 
 });
