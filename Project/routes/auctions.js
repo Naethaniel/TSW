@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  let skip = req.body.skip || 0;
-  let limit = req.body.limit || 2;
+router.get('/paginate', (req, res) => {
+  let skip = parseInt(req.query.skip) || 0;
+  let limit = 2;
   let user = req.user;
   Auction.getAuctions(skip, limit, (err, collection) => {
     if (err) throw err;

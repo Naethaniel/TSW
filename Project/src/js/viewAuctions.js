@@ -1,9 +1,7 @@
 $(() => {
   let skip = 2;
-  let limit = 2;
 
   const createElement = (elem, userName) => {
-    console.log(elem);
     let string = `<div id="${elem._id}">
         <ul class="list-group">
         <li class="list-group-item">Title: ${elem.title}</li>
@@ -11,7 +9,6 @@ $(() => {
         <li class="list-group-item">Type: ${elem.isBuyNow ? 'Buy now' : 'Standard'}</li>
         <li class="list-group-item">Price: ${elem.price}</li>
         <li class="list-group-item">End time: ${elem.endTime}</li>`;
-
     if (userName) {
       if (elem.isBuyNow) {
         string += `<button id="buyNowButton" type="submit" class="btn btn-default">Buy now!</button>
@@ -29,11 +26,11 @@ $(() => {
     return string;
   };
 
-  const loadMore = (skip, limit) => {
+  const loadMore = (skip) => {
     $.ajax({
-      url: "/auctions",
-      type: "POST",
-      data: JSON.stringify({skip, limit}),
+      url: "/auctions/paginate",
+      type: "GET",
+      data: {skip},
       contentType: "application/json",
       complete: handlePagination
     });
@@ -53,7 +50,7 @@ $(() => {
   };
 
   $('#paginationButton').on('click', () => {
-    loadMore(skip, limit);
+    loadMore(skip);
     skip += 2;
   });
 
