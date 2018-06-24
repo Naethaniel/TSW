@@ -2,7 +2,7 @@
 {{#if collection}}
     <div id="auctionList">
         {{#each collection}}
-            <div id="auction">
+            <div id="{{this.id}}">
                 <ul class="list-group">
                     <li class="list-group-item">Title: {{this.title}}</li>
                     <li class="list-group-item">Description: {{this.description}}</li>
