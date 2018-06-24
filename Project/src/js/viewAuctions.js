@@ -1,5 +1,6 @@
 $(() => {
   let skip = 2;
+  let id;
   const createElement = (elem, userName) => {
     let string = `<div id="${elem._id}">
         <ul class="list-group">
@@ -58,10 +59,11 @@ $(() => {
   const handleBuy = (response) => {
     if (response.status === 200) {
       //remove this element from the list?
-      alert('kupiles gratulacje');
+      alert('Congratulations, you won the auction');
+      $(`#${id}`).remove();
     }
     else {
-      alert('cos poszlo nie tak');
+      alert('Something went wrong :(');
       console.log(response);
     }
   };
@@ -69,10 +71,10 @@ $(() => {
   const handleBid = (response) => {
     if (response.status === 200) {
       //remove this element from the list?
-      alert('zbidowales gratulacje');
+      alert('Congratulations, you bid the auction');
     }
     else {
-      alert('cos poszlo nie tak');
+      alert('Something went wrong :(');
       console.log(response);
     }
   };
@@ -104,7 +106,7 @@ $(() => {
   //DODAC USERA? albo pobrac ro z req.locals po serwerze
 //buyNow!
   $('#auctionList').on('click', ' #buyNowButton', (e) => {
-    let id = $(e.target).parent().parent().attr('id');
+    id = $(e.target).parent().parent().attr('id');
     //post ajax to the auctions/buy?id
     buy(id);
   });
