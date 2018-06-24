@@ -1,9 +1,10 @@
 $(() => {
-  let skip = 0;
+  let skip = 2;
   let limit = 2;
 
   const createElement = (elem, userName) => {
-    let string = `<div id="${elem.id}">
+    console.log(elem);
+    let string = `<div id="${elem._id}">
         <ul class="list-group">
         <li class="list-group-item">Title: ${elem.title}</li>
         <li class="list-group-item">Description: ${elem.description}</li>
@@ -18,7 +19,7 @@ $(() => {
             <br/>
         </div>`
       } else {
-        string += `<input type="number" step="0.01" min="0" class="form-control" placeholder="Bid" name="bid">`;
+        string += `<input type="number" step="0.01" min="${elem.price+1}" class="form-control" placeholder="Bid" name="bid">`;
         string += `<button id="bidButton" type="submit" class="btn btn-default">Bid!</button>
             </ul>
             <br/>
@@ -55,4 +56,8 @@ $(() => {
     loadMore(skip, limit);
     skip += 2;
   });
+
+  //delegowac event onclick buy now/bid do auctionList
+  //ustawic na inpucie dla bida min wartosc z elem.price
+
 });

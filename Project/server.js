@@ -30,7 +30,21 @@ const compiler = webpack(webpackConfig);
 app.engine('hbs', hbs({
   extname: 'hbs',
   defaultLayout: 'layout',
-  layoutsDir: path.join(__dirname + '/src/hbs/layouts')
+  layoutsDir: path.join(__dirname + '/src/hbs/layouts'),
+  helpers: {
+    // Function to do basic mathematical operation in handlebar
+    math: function (lvalue, operator, rvalue) {
+      lvalue = parseFloat(lvalue);
+      rvalue = parseFloat(rvalue);
+      return {
+        "+": lvalue + rvalue,
+        "-": lvalue - rvalue,
+        "*": lvalue * rvalue,
+        "/": lvalue / rvalue,
+        "%": lvalue % rvalue
+      }[operator];
+    }
+  }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname + '/src/hbs'));
