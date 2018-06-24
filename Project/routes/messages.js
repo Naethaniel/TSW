@@ -26,15 +26,15 @@ const ensureAuthenticated = (req, res, next) => {
   }
 };
 
-router.get('/', ensureAuthenticated, (req, res) => {
-  res.render('messages');
-});
-
-module.exports = (io) =>{
-  //socket io
-  io.on('connect', (socket)=>{
-    console.log("podlaczono");
+module.exports = (io) => {
+  //sockets
+  io.of('/messages').on('connect', (socket) => {
+    console.log("connected");
+    socket.emit('loadChat', chatMock);
   });
 
+  router.get('/', ensureAuthenticated, (req, res) => {
+    res.render('messages');
+  });
   return router;
 };

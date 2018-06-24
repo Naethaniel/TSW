@@ -1,11 +1,12 @@
-import io from 'socket.io-client';
+const io = require('socket.io-client');
+
 $(()=>{
-  // console.log(`http://${location.host}/messages`);
-  // let socket = io(`http://${location.host}`);
+  let socket = io.connect(`http://${location.host}/messages`);
   let table = $('#table');
   let userRow = $('#userRow');
   let messagesRow = $('#messagesRow');
   let newMessageButton = $('#newMessage');
+  let chat = [];
 
   newMessageButton.on('click', (e) => {
     e.preventDefault();
@@ -18,4 +19,10 @@ $(()=>{
       userRow.append(`<li class="list-group-item">${e.target.value}</li>`);
     }
   });
+
+  //sockets
+  socket.on('loadChat', (data) => {
+
+  });
+
 });

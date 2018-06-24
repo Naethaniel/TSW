@@ -107,17 +107,16 @@ app.use((req, res, next) => {
     next();
 });
 
+const server = app.listen(8080, function () {
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log('uBuy listening at http://%s:%s', host, port);
+});
+
 //Socket.IO
-const httpServer = require('http').Server(app);
-const io = require('socket.io')(httpServer);
-// app.io = io;
-// app.use((req, res, next) => {
-//   req.io = io;
-//   next();
-// });
-// io.sockets.on('connect', (socket) => {
-//   console.log('Socket.io: połączono.');
-// });
+const io = require('socket.io')(server);
+// const http = require('http').Server(app);
+// const io = require('socket.io')(http);
 
 //Routing
 const index = require('./routes/index');
@@ -128,9 +127,4 @@ app.use('/', index);
 app.use('/auctions', auctions);
 app.use('/messages', messages);
 
-const server = app.listen(8080, function () {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
-});
 
