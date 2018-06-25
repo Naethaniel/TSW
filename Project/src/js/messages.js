@@ -75,7 +75,18 @@ $(()=>{
 
   sendMessage.on('click', (e) => {
     e.preventDefault();
+    //get current username
+    let username = $('#logout')[0].outerText;
+    username = username.match(/\((.*)\)/)[1];
     let message = messageField.val();
+    messageField.val("");
+    messagesRow.append(`<li class="list-group-item">From: ${username} Message: ${message}</li>`);
+
+    //push that message to the local chat
+    let messages = chat.find(elem => elem.from === currentChat);
+    messages.messages.push({message, username});
+
+
     if(currentChat){
       socket.emit('newMessage', {to: currentChat, message});
     }else{
