@@ -1,3 +1,15 @@
+.test {
+  background: #f8f9fa; }
+
+.mydropdown {
+  background: #f8f9fa !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  border-color: #f8f9fa !important;
+  margin: 0.5em; }
+
+body {
+  padding-top: 5em; }
+
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -1196,12 +1208,12 @@ pre {
   .table td {
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 7px solid navy; }
+    border-top: 1px solid #dee2e6; }
   .table thead th {
     vertical-align: bottom;
-    border-bottom: 14px solid navy; }
+    border-bottom: 2px solid #dee2e6; }
   .table tbody + tbody {
-    border-top: 14px solid navy; }
+    border-top: 2px solid #dee2e6; }
   .table .table {
     background-color: #c2ecff; }
 
@@ -1210,13 +1222,13 @@ pre {
   padding: 0.3rem; }
 
 .table-bordered {
-  border: 7px solid navy; }
+  border: 1px solid #dee2e6; }
   .table-bordered th,
   .table-bordered td {
-    border: 7px solid navy; }
+    border: 1px solid #dee2e6; }
   .table-bordered thead th,
   .table-bordered thead td {
-    border-bottom-width: 14px; }
+    border-bottom-width: 2px; }
 
 .table-borderless th,
 .table-borderless td,
@@ -1336,7 +1348,7 @@ pre {
 .table .thead-light th {
   color: white;
   background-color: black;
-  border-color: navy; }
+  border-color: #dee2e6; }
 
 .table-dark {
   color: #c2ecff;
@@ -6744,10 +6756,10 @@ a.text-dark:hover, a.text-dark:focus {
     .table-dark td,
     .table-dark thead th,
     .table-dark tbody + tbody {
-      border-color: navy; }
+      border-color: #dee2e6; }
 
   .table .thead-dark th {
     color: inherit;
-    border-color: navy; } }
+    border-color: #dee2e6; } }
 
 /*# sourceMappingURL=style.css.map */

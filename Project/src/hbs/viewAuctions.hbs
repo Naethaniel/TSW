@@ -1,4 +1,4 @@
-<h2 class="page-header">List of current auctions:</h2>
+<h2 class="page-header text-center">List of current auctions:</h2>
 {{#if collection}}
     <div id="auctionList">
         {{#each collection}}
@@ -31,9 +31,11 @@
             {{/if}}
         {{/each}}
     </div>
-    <button id="paginationButton" type="submit" class="btn btn-default">Load more</button>
+    <div class="text-center">
+        <button id="paginationButton" type="submit" class="btn btn-default">Load more</button>
+    </div>
 {{else}}
-    <ul class="list-group">
+    <ul class="list-group text-center">
         <li>There are no auctions yet.</li>
     </ul>
 {{/if}}

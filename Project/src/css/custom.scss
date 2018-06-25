@@ -1,6 +1,22 @@
 $body-bg: #c2ecff;
 $body-color: #111;
 
+
+.test{
+  background: #f8f9fa;
+}
+
+.mydropdown{
+  background: #f8f9fa !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  border-color: #f8f9fa !important;
+  margin: 0.5em !important;
+}
+
+body{
+  padding-top: 5em;
+}
+
 // Tables
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
@@ -12,9 +28,6 @@ $table-bg:                    white;
 // $table-accent-bg:             rgba($black, .05) !default;
 // $table-hover-bg:              rgba($black, .075) !default;
 // $table-active-bg:             $table-hover-bg !default;
-
-$table-border-width:          7px;
-$table-border-color:         navy;
 
 $table-head-bg:               black;
 $table-head-color:            white;

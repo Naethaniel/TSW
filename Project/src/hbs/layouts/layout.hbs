@@ -9,30 +9,30 @@
     <title>uBuy</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand" href="/">uBuy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" href="/auctions">Show auctions</a>
+            <a class="btn btn-primary mydropdown" href="/auctions">Show auctions</a>
             {{#if user}}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown text-center">
+                    <button class="btn btn-primary dropdown-toggle mydropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Manage auctions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/auctions/create">Create</a>
-                        <a class="dropdown-item" href="/auctions/created">List created</a>
-                        <a class="dropdown-item" href="/auctions/won">List won</a>
+                        <a class="dropdown-item text-center" href="/auctions/create">Create</a>
+                        <a class="dropdown-item text-center" href="/auctions/created">List created</a>
+                        <a class="dropdown-item text-center" href="/auctions/won">List won</a>
                     </div>
                 </div>
-                <a id="messages" class="nav-item nav-link" href="/messages">Messages</a>
-                <a id="logout" class="nav-item nav-link" href="/logout">Logout ({{user.username}})</a>
+                <a id="messages" class="btn btn-primary mydropdown" href="/messages">Messages</a>
+                <a id="logout" class="btn btn-primary mydropdown" href="/logout">Logout ({{user.username}})</a>
             {{else}}
-                <a class="nav-item nav-link" href="/login">Login</a>
-                <a class="nav-item nav-link" href="/register">Register</a>
+                <a class="btn btn-primary mydropdown" href="/login">Login</a>
+                <a class="btn btn-primary mydropdown" href="/register">Register</a>
             {{/if}}
         </div>
     </div>
@@ -52,8 +52,8 @@
 
 {{{body}}}
 
-<footer class="footer-copyright">
-    <p>uBuy</p>
+<footer class="footer-copyright fixed-bottom test">
+    <p class="text-center">uBuy</p>
 </footer>
 </body>
 </html>
