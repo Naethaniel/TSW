@@ -46,10 +46,14 @@ module.exports = (io) => {
       //if user which we want send message to is online send him new data
       let index = loggedUsers.findIndex(e => e.request.user.username === data.to);
       if(index !== -1){
-        Chat.findChat(data.to, (err, chat) => {
-          if (err) throw err;
-          loggedUsers[index].emit('incomingMessage', chat);
-        });
+
+        setTimeout(()=>{
+          Chat.findChat(data.to, (err, chat) => {
+            if (err) throw err;
+            loggedUsers[index].emit('incomingMessage', chat);
+          });
+        }, 2000);
+
       }
     });
 

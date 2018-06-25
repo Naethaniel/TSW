@@ -21,7 +21,6 @@ $(()=>{
       if (e.key === "Enter") {
         $(e.target).parent().remove();
         currentChat = $(e.target)[0].innerHTML;
-        console.log(currentChat);
         userRow.append(`<li class="list-group-item">${e.target.value}</li>`);
       }
     }).on('click', 'li', (e) => {
@@ -31,7 +30,7 @@ $(()=>{
       let messages = chat.find(elem => elem.from === username);
       if (messages) {
         messages.messages.forEach((elem) => {
-          messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`)
+          messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`);
         });
       }
   });
@@ -51,8 +50,20 @@ $(()=>{
 
   socket.on('incomingMessage', (data) => {
     alert('Dostałeś nowa wiadomość');
-    console.log(data);
-    //update view
+    chat = data[0].data;
+    userRow.empty();
+    chat.forEach((elem) => {
+      userRow.append(`<li class="list-group-item">${elem.from}</li>`);
+    });
+    let toUpdate = data[0].data.find(e => e.from === currentChat);
+    if(toUpdate){
+      let messages = toUpdate.messages;
+      messagesRow.empty();
+      messages.forEach((elem) => {
+        messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`)
+      });
+    }
+
     if (data.length !== 0) {
       chat = data[0].data;
       userRow.empty();
