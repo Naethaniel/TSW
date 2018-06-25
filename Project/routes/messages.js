@@ -70,34 +70,36 @@ const ensureAuthenticated = (req, res, next) => {
 };
 
 module.exports = (io) => {
-  let user;
   router.get('/', ensureAuthenticated, (req, res) => {
-    // user = req.user || null;
+    let user = req.user || null;
+
+    //sockets
+    io.of('/messages').on('connect', (socket) => {
+      console.log("connected");
+      socket.user = user;
+
+      //somehow get username from somewhere
+      Chat.findChat("n", (err, chat) => {
+        if(err) throw err;
+        socket.emit('loadChat', chat);
+      });
+
+      socket.on('newMessage', (data) => {
+        //find chat for certain user
+        console.log(socket.user);
+        Chat.addMessage('n', (err, chat) => {
+          if(err) throw err;
+        })
+
+      });
+
+      // socket.emit('loadChat', chatMock);
+    });
+
     res.render('messages');
   });
 
-  //sockets
-  io.of('/messages').on('connect', (socket) => {
-    console.log("connected");
 
-    //somehow get username from somewhere
-    Chat.findChat("n", (err, chat) => {
-      if(err) throw err;
-      console.log(chat);
-      socket.emit('loadChat', chat);
-    });
-
-    socket.on('newMessage', (data) => {
-      //find chat for certain user
-      console.log(socket);
-      Chat.addMessage('n', (err, chat) => {
-        if(err) throw err;
-      })
-
-    });
-
-    // socket.emit('loadChat', chatMock);
-  });
 
 
   return router;

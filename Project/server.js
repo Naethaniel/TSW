@@ -8,7 +8,6 @@ const mongo = require('mongodb');
 const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
 const passport = require('passport');
-const socketIo = require('socket.io');
 const passportSocketIo = require('passport.socketio');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -60,11 +59,17 @@ app.use(express.static(path.join(__dirname + '/src')));
 //Session
 const sessionSecret = 'iLoveSecrets#222';
 const sessionKey = 'express.sid';
+const mongoStore = require('connect-mongo')(session);
+const store = new mongoStore({
+  url: 'mongodb://localhost/uBuy',
+  ttl: 14 * 24 * 60 * 60
+});
 app.use(session({
   key: sessionKey,
   secret: sessionSecret,
   saveUninitialized: true,
   resave: true,
+  store: store
 }));
 //Middleware Passport.js
 app.use(passport.initialize());
@@ -114,9 +119,14 @@ const server = app.listen(8080, function () {
 });
 
 //Socket.IO
+
 const io = require('socket.io')(server);
-// const http = require('http').Server(app);
-// const io = require('socket.io')(http);
+io.use(passportSocketIo.authorize({
+  cookieParser: cookieParser,
+  key: sessionKey,
+  secret: sessionSecret,
+  store: store
+}));
 
 //Routing
 const index = require('./routes/index');
