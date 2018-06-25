@@ -1,7 +1,7 @@
 const io = require('socket.io-client');
 
 $(()=>{
-  let socket = io.connect(`http://${location.host}/messages`);
+  let socket;
   let table = $('#table');
   let userRow = $('#userRow');
   let messagesRow = $('#messagesRow');
@@ -20,6 +20,8 @@ $(()=>{
     userRow.keypress((e) => {
       if (e.key === "Enter") {
         $(e.target).parent().remove();
+        currentChat = $(e.target)[0].innerHTML;
+        console.log(currentChat);
         userRow.append(`<li class="list-group-item">${e.target.value}</li>`);
       }
     }).on('click', 'li', (e) => {
@@ -27,10 +29,37 @@ $(()=>{
       currentChat = username;
       messagesRow.empty();
       let messages = chat.find(elem => elem.from === username);
-      messages.messages.forEach((elem) => {
-        console.log(elem);
-        messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`)
+      if (messages) {
+        messages.messages.forEach((elem) => {
+          messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`)
+        });
+      }
+  });
+
+  socket = io.connect(`http://${location.host}/messages`);
+
+  //sockets
+  socket.on('loadChat', (data) => {
+    if (data.length !== 0) {
+      chat = data[0].data;
+      userRow.empty();
+      chat.forEach((elem) => {
+        userRow.append(`<li class="list-group-item">${elem.from}</li>`);
       });
+    }
+  });
+
+  socket.on('incomingMessage', (data) => {
+    alert('Dostałeś nowa wiadomość');
+    console.log(data);
+    //update view
+    if (data.length !== 0) {
+      chat = data[0].data;
+      userRow.empty();
+      chat.forEach((elem) => {
+        userRow.append(`<li class="list-group-item">${elem.from}</li>`);
+      });
+    }
   });
 
   sendMessage.on('click', (e) => {
@@ -43,15 +72,12 @@ $(()=>{
     }
   });
 
-  //sockets
-  socket.on('loadChat', (data) => {
-    console.log(data);
-    if (data.length !== 0) {
-      chat = data[0].data;
-      userRow.empty();
-      chat.forEach((elem) => {
-        userRow.append(`<li class="list-group-item">${elem.from}</li>`);
-      });
-    }
+  $(window).on('load', () => {
   });
+
+  $(window).on('unload', () => {
+    socket.emit('disconnect');
+  });
+
 });
+
