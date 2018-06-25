@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 let Chat = require('../models/chat');
+let User = require('../models/user');
 const loggedUsers = [];
 
 const ensureAuthenticated = (req, res, next) => {
@@ -21,10 +22,11 @@ module.exports = (io) => {
     //check if user is logged in
     let index = loggedUsers.findIndex(e => e.user === socket.request.user);
     if(index === -1) loggedUsers.push(socket);
-    console.log('logged:');
-    loggedUsers.forEach((elem) => {
-      console.log(elem.request.user.username);
-    });
+
+    // console.log('logged:');
+    // loggedUsers.forEach((elem) => {
+    //   console.log(elem.request.user.username);
+    // });
 
     Chat.findChat(socket.request.user.username, (err, chat) => {
       if (err) throw err;
@@ -34,39 +36,49 @@ module.exports = (io) => {
     socket.on('newMessage', (data) => {
       //somehow validate if user is in database
 
-      //find chat for certain user
-      Chat.addMessage(data.to, socket.request.user.username, data.message, socket.request.user.username, (err) => {
-        if (err) throw err;
-      });
-      //also insert into second user that message
-      Chat.addMessage(socket.request.user.username, data.to, data.message, socket.request.user.username, (err) => {
-        if (err) throw err;
-      });
-
-      //if user which we want send message to is online send him new data
-      let index = loggedUsers.findIndex(e => e.request.user.username === data.to);
-      if(index !== -1){
-
-        setTimeout(()=>{
-          Chat.findChat(data.to, (err, chat) => {
+      User.findOne({
+        username: {
+          "$regex": "^" + data.to + "\\b", "$options": "i"
+        }
+      }, (err, user) => {
+        if(user){
+          // find chat for certain user
+          Chat.addMessage(data.to, socket.request.user.username, data.message, socket.request.user.username, (err) => {
             if (err) throw err;
-            loggedUsers[index].emit('incomingMessage', chat);
           });
-        }, 2000);
+          //also insert into second user that message
+          Chat.addMessage(socket.request.user.username, data.to, data.message, socket.request.user.username, (err) => {
+            if (err) throw err;
+          });
 
-      }
+          //if user which we want send message to is online send him new data
+          let index = loggedUsers.findIndex(e => e.request.user.username === data.to);
+          if(index !== -1){
+
+            setTimeout(()=>{
+              Chat.findChat(data.to, (err, chat) => {
+                if (err) throw err;
+                loggedUsers[index].emit('incomingMessage', chat);
+              });
+            }, 2000);
+
+          }
+        }
+        else{
+          socket.emit('userNotFound');
+        }
+      });
+
+
     });
 
     socket.on('disconnect', () => {
-      console.log('Socket.io: rozłączono: ' + socket.request.user.username);
+      // console.log('Socket.io: rozłączono: ' + socket.request.user.username);
       let index = loggedUsers.indexOf(socket);
       loggedUsers.splice(index,1);
     });
 
   });
-
-
-
 
   return router;
 };

@@ -49,7 +49,7 @@ $(()=>{
   });
 
   socket.on('incomingMessage', (data) => {
-    alert('Dostałeś nowa wiadomość');
+    alert('You got new message!');
     chat = data[0].data;
     userRow.empty();
     chat.forEach((elem) => {
@@ -73,6 +73,10 @@ $(()=>{
     }
   });
 
+  socket.on('userNotFound', () =>{
+    alert('This user is not found');
+  });
+
   sendMessage.on('click', (e) => {
     e.preventDefault();
     //get current username
@@ -84,8 +88,7 @@ $(()=>{
 
     //push that message to the local chat
     let messages = chat.find(elem => elem.from === currentChat);
-    messages.messages.push({message, username});
-
+    if(messages) messages.messages.push({message, username});
 
     if(currentChat){
       socket.emit('newMessage', {to: currentChat, message});
