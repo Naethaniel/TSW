@@ -16,11 +16,10 @@ $(()=>{
     userRow.append(`<li class="list-group-item"><input type ="text" value="" placeholder="Username"></li>`);
   });
 
-    //this needs to be changed
     userRow.keypress((e) => {
       if (e.key === "Enter") {
         $(e.target).parent().remove();
-        currentChat = $(e.target)[0].innerHTML;
+        currentChat = $(e.target)[0].value;
         userRow.append(`<li class="list-group-item">${e.target.value}</li>`);
       }
     }).on('click', 'li', (e) => {
