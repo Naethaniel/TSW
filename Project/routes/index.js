@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 let User = require('../models/user');
+let Chat = require('../models/chat');
 const LocalStrategy = require('passport-local').Strategy;
 
 const ensureAuthenticated = (req, res, next) =>{
@@ -56,9 +57,17 @@ router.post('/register', (req, res) => {
                 username: username,
                 password: password
               });
-              User.createUser(newUser, function (err, user) {
+              User.createUser(newUser, (err, user) =>{
                 if (err) throw err;
                 console.log(user);
+
+                //create chat for user
+                let newChat = new Chat({username: newUser.username});
+                Chat.createChat(newChat, (err, chat) =>{
+                  if(err) throw err;
+                  console.log(chat);
+                })
+
               });
               req.flash('success_msg', 'You are registered and can now login');
               res.redirect('/login');

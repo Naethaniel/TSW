@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 let Chat = require('../models/chat');
+const loggedUsers = [];
 
 // const chatMock = [{
 //   user1: "Karol",
@@ -69,14 +70,35 @@ const ensureAuthenticated = (req, res, next) => {
 };
 
 module.exports = (io) => {
+  let user;
+  router.get('/', ensureAuthenticated, (req, res) => {
+    // user = req.user || null;
+    res.render('messages');
+  });
+
   //sockets
   io.of('/messages').on('connect', (socket) => {
     console.log("connected");
-    socket.emit('loadChat', chatMock);
+
+    //somehow get username from somewhere
+    Chat.findChat("n", (err, chat) => {
+      if(err) throw err;
+      console.log(chat);
+      socket.emit('loadChat', chat);
+    });
+
+    socket.on('newMessage', (data) => {
+      //find chat for certain user
+      console.log(socket);
+      Chat.addMessage('n', (err, chat) => {
+        if(err) throw err;
+      })
+
+    });
+
+    // socket.emit('loadChat', chatMock);
   });
 
-  router.get('/', ensureAuthenticated, (req, res) => {
-    res.render('messages');
-  });
+
   return router;
 };
