@@ -6,7 +6,10 @@ $(()=>{
   let userRow = $('#userRow');
   let messagesRow = $('#messagesRow');
   let newMessageButton = $('#newMessage');
+  let sendMessage = $('#sendMessage');
+  let messageField = $('#messageField');
   let chat = [];
+  let currentChat = null;
 
   newMessageButton.on('click', (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ $(()=>{
       }
     }).on('click', 'li', (e) => {
       let username = $(e.target)[0].innerHTML;
+      currentChat = username;
       messagesRow.empty();
       let messages = chat.find(elem => elem.from === username);
       messages.messages.forEach((elem) => {
@@ -28,15 +32,25 @@ $(()=>{
       });
   });
 
+  sendMessage.on('click', (e) => {
+    e.preventDefault();
+    let message = messageField.val();
+    if(currentChat){
+      socket.emit('newMessage', {to: currentChat, message});
+    }else{
+      alert('Please create new message with a button');
+    }
+  });
+
   //sockets
   socket.on('loadChat', (data) => {
     console.log(data);
-    chat = data[0].data;
-    userRow.empty();
-    chat.forEach((elem) => {
-      userRow.append(`<li class="list-group-item">${elem.from}</li>`);
-    });
-    socket.emit('newMessage', {});
+    if (data.length !== 0) {
+      chat = data[0].data;
+      userRow.empty();
+      chat.forEach((elem) => {
+        userRow.append(`<li class="list-group-item">${elem.from}</li>`);
+      });
+    }
   });
-
 });

@@ -71,7 +71,7 @@ const ensureAuthenticated = (req, res, next) => {
 
 module.exports = (io) => {
   router.get('/', ensureAuthenticated, (req, res) => {
-    let user = req.user || null;
+    let user = req.user;
 
     //sockets
     io.of('/messages').on('connect', (socket) => {
@@ -79,15 +79,14 @@ module.exports = (io) => {
       socket.user = user;
 
       //somehow get username from somewhere
-      Chat.findChat("n", (err, chat) => {
+      Chat.findChat(user.username, (err, chat) => {
         if(err) throw err;
         socket.emit('loadChat', chat);
       });
 
       socket.on('newMessage', (data) => {
         //find chat for certain user
-        console.log(socket.user);
-        Chat.addMessage('n', (err, chat) => {
+        Chat.addMessage(data.to, socket.user.username, data.message, (err, chat) => {
           if(err) throw err;
         })
 

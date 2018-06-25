@@ -57,29 +57,48 @@ module.exports.findChat = (username, callback) => {
 
 module.exports.addMessage = (to, from, message, callback) => {
   //later change to actual information
-  Chat.find({username: 'n'}, (err, chat) => {
-    let index = chat[0].data.findIndex(e => e.from === 'andrzej');
+  // Chat.find({username: 'n'}, (err, chat) => {
+  //   //   let index = chat[0].data.findIndex(e => e.from === 'andrzej');
+  //   //   if(index === -1){
+  //   //     //there is not
+  //   //     console.log("there is not");
+  //   //     chat[0].data.push({
+  //   //       from: 'andrzej',
+  //   //       messages: [{
+  //   //         message: 'znala',
+  //   //         username: 'hehe'
+  //   //       }]
+  //   //     })
+  //   //   }else{
+  //   //     //index found
+  //   //     console.log('found');
+  //   //     chat[0].data[index].messages.push({
+  //   //       message: 'hop-siup',
+  //   //       username: 'dzialalallaa'
+  //   //     });
+  //   //   }
+  //   //   chat[0].save();
+  //   // });
+  Chat.find({username: to}, (err, chat) => {
+    let index = chat[0].data.findIndex(e => e.from === from);
     if(index === -1){
       //there is not
       console.log("there is not");
       chat[0].data.push({
-        from: 'andrzej',
+        from: from,
         messages: [{
-          message: 'znala',
-          username: 'hehe'
+          message: message,
+          username: from
         }]
       })
     }else{
       //index found
       console.log('found');
       chat[0].data[index].messages.push({
-        message: 'hop-siup',
-        username: 'dzialalallaa'
+        message: message,
+        username: from
       });
     }
     chat[0].save();
   });
-
-  // let query = Chat.findOneAndUpdate({username: to, data:{...data, from: from}, {$push: {data[from].messages: message}});
-  // query.exec(callback);
 };
