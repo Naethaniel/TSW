@@ -71,31 +71,26 @@ const ensureAuthenticated = (req, res, next) => {
 
 module.exports = (io) => {
   router.get('/', ensureAuthenticated, (req, res) => {
-    let user = req.user;
+    res.render('messages');
+  });
 
-    //sockets
-    io.of('/messages').on('connect', (socket) => {
-      console.log("connected");
-      socket.user = user;
-
-      //somehow get username from somewhere
-      Chat.findChat(user.username, (err, chat) => {
-        if(err) throw err;
-        socket.emit('loadChat', chat);
-      });
-
-      socket.on('newMessage', (data) => {
-        //find chat for certain user
-        Chat.addMessage(data.to, socket.user.username, data.message, (err, chat) => {
-          if(err) throw err;
-        })
-
-      });
-
-      // socket.emit('loadChat', chatMock);
+  //sockets
+  io.of('/messages').on('connect', (socket) => {
+    Chat.findChat(socket.request.user.username, (err, chat) => {
+      if (err) throw err;
+      socket.emit('loadChat', chat);
     });
 
-    res.render('messages');
+    socket.on('newMessage', (data) => {
+      //find chat for certain user
+      Chat.addMessage(data.to, socket.request.user.username, data.message, socket.request.user.username, (err, chat) => {
+        if (err) throw err;
+      });
+      //also insert into second user that message
+      Chat.addMessage(socket.request.user.username, data.to, data.message, socket.request.user.username, (err, chat) => {
+        if (err) throw err;
+      });
+    });
   });
 
 

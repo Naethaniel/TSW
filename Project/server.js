@@ -62,7 +62,7 @@ const sessionKey = 'express.sid';
 const mongoStore = require('connect-mongo')(session);
 const store = new mongoStore({
   url: 'mongodb://localhost/uBuy',
-  ttl: 14 * 24 * 60 * 60
+  ttl: 600
 });
 app.use(session({
   key: sessionKey,

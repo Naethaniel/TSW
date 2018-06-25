@@ -62,7 +62,7 @@ router.post('/register', (req, res) => {
                 console.log(user);
 
                 //create chat for user
-                let newChat = new Chat({username: newUser.username});
+                let newChat = new Chat({username});
                 Chat.createChat(newChat, (err, chat) =>{
                   if(err) throw err;
                   console.log(chat);

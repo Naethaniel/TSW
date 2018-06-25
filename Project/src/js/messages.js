@@ -28,6 +28,7 @@ $(()=>{
       messagesRow.empty();
       let messages = chat.find(elem => elem.from === username);
       messages.messages.forEach((elem) => {
+        console.log(elem);
         messagesRow.append(`<li class="list-group-item">From: ${elem.username} Message: ${elem.message}</li>`)
       });
   });
