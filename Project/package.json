@@ -29,16 +29,16 @@
     "webpack-dev-server": "^3.1.4",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
-    "postcss-loader": "^2.1.5"
+    "postcss-loader": "^2.1.5",
+    "expose-loader": "^0.7.5",
+    "bcryptjs": "^2.4.3"
   },
   "dependencies": {
     "popper.js": "^1.14.3",
-    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.1.1",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",
-    "expose-loader": "^0.7.5",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-messages": "^1.0.1",
