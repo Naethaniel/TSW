@@ -1,14 +1,25 @@
 .test {
   background: #f8f9fa; }
 
+.myoverflow2 {
+  overflow-x: auto !important;
+  overflox-y: auto !important;
+  height: 50%; }
+
+.myoverflow {
+  overflow-x: scroll !important;
+  overflox-y: auto !important;
+  height: 50%; }
+
 .mydropdown {
   background: #f8f9fa !important;
   color: rgba(0, 0, 0, 0.5) !important;
   border-color: #f8f9fa !important;
-  margin: 0.5em; }
+  margin: 0.5em !important; }
 
 body {
-  padding-top: 5em; }
+  padding-top: 5em;
+  padding-bottom: 3em; }
 
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
